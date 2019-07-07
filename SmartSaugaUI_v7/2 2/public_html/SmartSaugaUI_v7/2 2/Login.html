@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>SmartSauga :: Create an Account</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3pro.css">
+    <link rel="stylesheet" href="css/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,400,700|Wire+One" rel="stylesheet">
+    <script src="http://code.jquery.com/jquery-2.2.4.min.js"></script>
+    <script>
+        $(document).bind('mobileinit', function() {
+            $.mobile.keepNative = "select, input, form, body, div, a, p"; /* jQuery Mobile 1.4 and higher /
+            //$.mobile.page.prototype.options.keepNative = "select, input"; / jQuery Mobile 1.4 and lower */
+            //            $.mobile.ignoreContentEnabled = true;
+        });
+    </script>
+    <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+</head>
+<body>
+    <div class="w3-container">
+        <div class="w3-container w3-display-topmiddle w3-padding">
+            <h1>SmartSauga</h1>
+        </div>
+
+        <form action="EditProfile.html" method="post" class="w3-container w3-display-middle w3-padding">
+            <p>
+                <input type="email" id="email" placeholder="Email" class="w3-input w3-round loginInputField" autofocus required />
+            </p>
+            <p>
+                <input type="password" id="password" placeholder="Password" class="w3-input w3-round loginInputField" required />
+            </p>
+            <a href="#" onclick="redirect()" class="w3-button w3-round w3-wide w3-center cancelBtns">CANCEL</a>
+            <button id="submit" type="submit" value="LOGIN" class="w3-button w3-round w3-wide w3-center w3-right btns">Login</button>
+            <!-- <input onclick="getUser()" id="submit" type="submit" value="LOGIN" class="w3-button w3-round w3-wide w3-center w3-right btns" /> -->
+        </form>
+    </div>
+    <script>
+        /*function redirect() {
+            $(location).attr('href', 'CreateOrLogin.html');
+        }
+        function getUser() {
+            var email = document.getElementById("email").value;
+            var password = document.getElementById("password").value;
+            //var uri = "http://142.55.32.86:50224/SmartSaugaServer/validateUser/" + email + "/" + password;
+            $(document).ready(function() {
+                /*$.ajax({
+                    type: "POST",
+                    dataType: "json",
+                    //url: uri,
+                    xhrFields: {
+                        withCredentials: false
+                    },
+                    success: function(data) {
+                        sessionStorage.setItem("email", data.email);
+                        sessionStorage.setItem("password", data.password);
+                        sessionStorage.setItem("name", data.name);
+                        sessionStorage.setItem("about", data.about);
+                        sessionStorage.setItem("facebookUrl", data.facebookUrl);
+                        sessionStorage.setItem("notes", data.notes);
+                        sessionStorage.setItem("birthdate", data.birthdate);
+//                        window.location.replace("Map.html");
+                        $(location).attr('href', 'Map.html');
+
+                    }
+                });
+            });
+        } */
+    </script>
+</body>
+
+</html>

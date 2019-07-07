@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>SmartSauga :: Submit a Location</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3pro.css">
+	<link rel="stylesheet" href="css/main.css">
+	<link href="https://fonts.googleapis.com/css?family=Roboto:100,400,700|Wire+One" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+	
+</head>
+<body>
+	<nav class="w3-sidebar w3-bar-block w3-card" id="sidebar">
+        <div class="w3-container sidebar1">
+            <span onclick="closeSidebar()" class="w3-button w3-display-topright w3-large">X</span>
+            <br>
+            <div class="w3-padding w3-center">
+                <a href="Profile.html"><img class="w3-circle imgBorder" src="img/profile.jpg"></a>
+            </div>
+        </div>
+        <a class="w3-bar-item w3-button margin" href="Map.html">Map</a>
+        <a class="w3-bar-item w3-button margin" href="#">Newsfeed</a>
+        <a class="w3-bar-item w3-button margin" href="#">Favourites</a>
+    </nav>
+    <header class="w3-bar w3-card">
+        <button class="w3-bar-item w3-button w3-xxxlarge" onclick="openSidebar()">&#9776;</button>
+    </header>
+	<form class="w3-container">
+        <p class="marginLeft ">
+			<label for="name" class="formLabels">Place Name:</label>
+			<input name="name" class="w3-input w3-round-large inputField"/>
+		</p>
+        <p class="marginLeft">
+			<label for="address" class="formLabels">Address:</label>
+            <input name="address" class="w3-input w3-round-large inputField"/>
+        </p>
+        <p class="marginLeft">
+			<label for="category" class="formLabels">Category:</label>
+            <input name="category" class="w3-input w3-round-large inputField"/>
+		</p>
+        <div class="w3-container w3-center margintopbot">
+            <input type="submit" value="Submit Location" class="w3-button w3-round-large largeBtns"/>
+        </div>
+	</form>
+	<script>
+        closeSidebar();
+
+        function openSidebar() {
+            document.getElementById("sidebar").style.display = "block";
+        }
+
+        function closeSidebar() {
+            document.getElementById("sidebar").style.display = "none";
+        }
+    </script>
+</body>
+</html>

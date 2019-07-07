@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+        <script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery/jquery-1.7.1.min.js"></script>
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.min.js"></script>
+
+    <title>SmartSauga :: Create an Account</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3pro.css">
+    <!--    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">-->
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+
+</head>
+
+<body>
+    <nav class="w3-sidebar w3-bar-block w3-card" id="sidebar">
+        <div class="w3-container sidebar1">
+            <span onclick="closeSidebar()" class="w3-button w3-display-topright w3-large">X</span>
+            <br>
+            <div class="w3-padding w3-center">
+                <img class="w3-circle imgBorder" style="width:75%">
+            </div>
+        </div>
+        <a class="w3-bar-item w3-button margin" href="Map.html">Map</a>
+        <a class="w3-bar-item w3-button margin" href="#">Newsfeed</a>
+        <a class="w3-bar-item w3-button margin" href="#">Favourites</a>
+    </nav>
+
+    <header class="w3-bar w3-card">
+        <button class="w3-bar-item w3-button w3-xxxlarge" onclick="openSidebar()">&#9776;</button>
+    </header>
+
+    <div class="w3-container w3-center">
+        <input id="pac-input" class="controls" type="text" placeholder="Search">
+        <div id="map"></div>
+             <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCjUmhbbm_UPCWlNP97Owsa9gBAZiGEPcE&libraries=places&callback=initAutocomplete" async defer></script>
+        <div class="w3-center w3-round w3-cell-row categories">
+            <a href="#" class="categoryBtns w3-cell"><i class="fas fa-utensils fa-lg"></i></a>
+            <a href="#" class="categoryBtns w3-cell"><i class="fas fa-coffee fa-lg"></i></a>
+            <a href="#" class="categoryBtns w3-cell"><i class="fas fa-building fa-lg"></i></a>
+            <a href="#" class="categoryBtns w3-cell"><i class="fas fa-tree fa-lg"></i></a>
+            <a href="#" class="categoryBtns w3-cell"><i class="fas fa-bus fa-lg"></i></a>
+            <a href="#" class="categoryBtns w3-cell"><i class="fas fa-book-open fa-lg"></i></a>
+        </div>
+
+        <div class="w3-container w3-center margintopbot">
+            <a href="#" onclick="getLocation()" class="w3-button w3-round w3-center largeBtns">Get My location</a>
+            <a href="#" onclick="alert1()" class="w3-button w3-round w3-center largeBtns">Add New Wi-Fi Location</a>
+
+            <h4 style="color:antiquewhite" id="demo"></h4>
+        </div>
+    </div>
+
+
+    <script>
+
+var x = document.getElementById("demo");
+
+function alert1(){alert('Wifi Location has been added')}
+
+function getLocation() {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(showPosition);
+
+  } else {
+    x.innerHTML = "Geolocation is not supported by this browser.";
+  }
+}
+function showPosition(position) {
+  /*x.innerHTML = "Latitude: " + position.coords.latitude +
+  "<br>Longitude: " + position.coords.longitude;*/
+
+  const lat = position.coords.latitude;
+  const lng = position.coords.longitude;
+  console.log(lat, lng)
+  const latlng = {lat, lng}
+  initAutocomplete(latlng)
+}
+        function initAutocomplete(latlng) {
+            Map.latlng;
+            var map = new google.maps.Map(document.getElementById('map'), {
+                center: latlng,
+                zoom: 13,
+                mapTypeId: 'roadmap'
+
+            });
+            var marker = new google.maps.Marker({position: latlng,  map: map});
+
+
+
+            // Create the search box and link it to the UI element.
+            var input = document.getElementById('pac-input');
+            var searchBox = new google.maps.places.SearchBox(input);
+            map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+
+            // Bias the SearchBox results towards current map's viewport.
+            map.addListener('bounds_changed', function() {
+                searchBox.setBounds(map.getBounds());
+            });
+
+            var markers = [];
+            // Listen for the event fired when the user selects a prediction and retrieve
+            // more details for that place.
+            searchBox.addListener('places_changed', function() {
+                var places = searchBox.getPlaces();
+
+                if (places.length == 0) {
+                    return;
+                }
+
+                // Clear out the old markers.
+                markers.forEach(function(marker) {
+                    marker.setMap(null);
+                });
+                markers = [];
+
+                // For each place, get the icon, name and location.
+                var bounds = new google.maps.LatLngBounds();
+                places.forEach(function(place) {
+                    if (!place.geometry) {
+                        console.log("Returned place contains no geometry");
+                        return;
+                    }
+                    var icon = {
+                        url: place.icon,
+                        size: new google.maps.Size(71, 71),
+                        origin: new google.maps.Point(0, 0),
+                        anchor: new google.maps.Point(17, 34),
+                        scaledSize: new google.maps.Size(25, 25)
+                    };
+
+                    // Create a marker for each place.
+                    markers.push(new google.maps.Marker({
+                        map: map,
+                        icon: icon,
+                        title: place.name,
+                        position: place.geometry.location
+                    }));
+
+                    if (place.geometry.viewport) {
+                        // Only geocodes have viewport.
+                        bounds.union(place.geometry.viewport);
+                    } else {
+                        bounds.extend(place.geometry.location);
+                    }
+                });
+                map.fitBounds(bounds);
+            });
+        }
+
+
+
+    </script>
+    <script>
+        closeSidebar();
+
+        function openSidebar() {
+            document.getElementById("sidebar").style.display = "block";
+        }
+
+        function closeSidebar() {
+            document.getElementById("sidebar").style.display = "none";
+        }
+    </script>
+</body>
+
+</html>

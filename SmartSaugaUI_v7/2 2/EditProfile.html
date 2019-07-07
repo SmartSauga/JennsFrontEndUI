@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>SmartSauga :: Edit Your Profile</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3pro.css">
+    <script src="http://code.jquery.com/jquery-2.2.4.min.js"></script>
+    <script>
+        $(document).bind('mobileinit', function() {
+            $.mobile.keepNative = "select, input, form, body, div, a, p"; /* jQuery Mobile 1.4 and higher /
+            //$.mobile.page.prototype.options.keepNative = "select, input"; / jQuery Mobile 1.4 and lower */
+            //            $.mobile.ignoreContentEnabled = true;
+        });
+    </script>
+    <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+	<link rel="stylesheet" href="css/main.css">
+	<link href="https://fonts.googleapis.com/css?family=Roboto:100,400,700|Wire+One" rel="stylesheet">
+	
+</head>
+<body>
+	<nav class="w3-sidebar w3-bar-block w3-card" id="sidebar">
+        <div class="w3-container sidebar1">
+            <span onclick="closeSidebar()" class="w3-button w3-display-topright w3-large">X</span>
+            <br>
+            <div class="w3-padding w3-center">
+                <a href="#" onclick="redirectProfile()"><img class="w3-circle imgBorder" src="img/profile.jpg"></a>
+            </div>
+        </div>
+        <a class="w3-bar-item w3-button margin" href="#" onclick="mapRedirect()">Map</a>
+        <a class="w3-bar-item w3-button margin" href="#">Newsfeed</a>
+        <a class="w3-bar-item w3-button margin" href="#">Favourites</a>
+    </nav>
+    <header class="w3-bar w3-card">
+        <button class="w3-bar-item w3-button w3-xxxlarge" onclick="openSidebar()">&#9776;</button>
+    </header>
+	<form class="w3-container">
+        <p class="marginLeft">
+			<label for="name" class="formLabels">Name:</label>
+			<input name="name" id="name" class="w3-input w3-round-large inputField"/>
+		</p>
+        <p class="marginLeft">
+            <label for="email" class="formLabels">Email:</label>
+            <input name="email" id="email" class="w3-input w3-round-large inputField"/>
+        </p>
+        <p class="marginLeft">
+			<label for="about" class="formLabels">About:</label>
+            <input name="about" id="about" class="w3-input w3-round-large inputField"/>
+		</p>
+        <p class="marginLeft">
+            <label for="facebookUrl" class="formLabels">Facebook:</label>
+            <input name="facebookUrl" id="facebookUrl" class="w3-input w3-round-large inputField"/>
+        </p>
+        <p class="marginLeft">
+			<label for="notes" class="formLabels">Notes:</label>
+            <input name="notes" id="notes" class="w3-input w3-round-large inputField"/>
+		 </p>
+        <p class="marginLeft">
+			<label for="birthdate" class="formLabels">Birthday:</label>
+            <input type="text" name="birthdate" id="birthdate" class="w3-input w3-round-large inputField"/>
+		</p>
+        <p class="w3-center">
+            <a href="#" onclick="redirectProfile()" class="w3-button w3-round w3-wide w3-center cancelBtns">Cancel</a>
+            <input type="submit" value="Save Changes" onclick="updateUser()" class="w3-button w3-round-large btns"/>
+        </p>
+        
+        <div id="result"></div>
+        
+           
+	</form>
+    <script>
+            if (typeof(Storage) !== "undefined") {
+                document.getElementById("email").value = sessionStorage.getItem("email");
+                document.getElementById("name").value = sessionStorage.getItem("name");
+                document.getElementById("about").value = sessionStorage.getItem("about");
+                document.getElementById("facebookUrl").value = sessionStorage.getItem("facebookUrl");
+                document.getElementById("notes").value = sessionStorage.getItem("notes");
+                document.getElementById("birthdate").value = sessionStorage.getItem("birthdate");
+            } else {
+                document.getElementById("result").value = "Sorry, your browser does not support Web Storage...";
+            }
+        function redirect() {
+            $(location).attr('href', 'CreateOrLogin.html');
+        }
+        function redirectProfile() {
+            $(location).attr('href', 'Profile.html');
+        }
+        function mapRedirect() {
+            $(location).attr('href', 'Map.html');
+        }
+        
+        function updateUser() {
+            
+            var email = document.getElementById("email").value;
+            var name = document.getElementById("name").value;
+            var birthdate = document.getElementById("birthdate").value;
+            var about = document.getElementById("about").value;
+            var facebookUrl = document.getElementById("facebookUrl").value;
+            var notes = document.getElementById("notes").value;
+            
+            var uri = "http://142.55.32.86:50224/SmartSaugaServer/updateProfile/" + email + "/" +  name + "/" + birthdate + "/" + about + "/" + facebookUrl + "/" + notes;
+            
+            $(document).ready(function() {  
+                $.ajax({
+                    type: "POST",
+                    dataType: "json",
+                    url: uri,
+                    xhrFields: {
+                        withCredentials: false
+                    },
+                    success: function(data) {
+                        sessionStorage.setItem("email", data.email);
+                        sessionStorage.setItem("name", data.name);
+                        sessionStorage.setItem("birthdate", data.birthdate);
+                        sessionStorage.setItem("about", data.about);
+                        sessionStorage.setItem("facebookUrl", data.facebookUrl);
+                        sessionStorage.setItem("notes", data.notes);
+                        $(location).attr('href', 'Profile.html');
+//                        window.location.replace("Profile.html");
+                    }
+                });
+            });
+        }
+    </script>
+	<script>
+        closeSidebar();
+
+        function openSidebar() {
+            document.getElementById("sidebar").style.display = "block";
+        }
+
+        function closeSidebar() {
+            document.getElementById("sidebar").style.display = "none";
+        }
+    </script>
+</body>
+</html>

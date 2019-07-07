@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>SmartSauga :: Create an Account</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <script src="http://code.jquery.com/jquery-2.2.4.min.js"></script>
+    <script>
+        $(document).bind('mobileinit', function() {
+            $.mobile.keepNative = "select, input, form, body, div, a, p"; /* jQuery Mobile 1.4 and higher /
+            //$.mobile.page.prototype.options.keepNative = "select, input"; / jQuery Mobile 1.4 and lower */
+            //            $.mobile.ignoreContentEnabled = true;
+        });
+    </script>
+    <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+	<link rel="stylesheet" href="css/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,400,700|Wire+One" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+</head>
+<body>
+    <nav class="w3-sidebar w3-bar-block w3-card" id="sidebar">
+        <div class="w3-container sidebar1">
+            <span onclick="closeSidebar()" class="w3-button w3-display-topright w3-large">X</span>
+            <br>
+            <div class="w3-padding w3-center">
+                <a href="#" onclick="redirectProfile()"><img class="w3-circle imgBorder" src="img/profile.jpg"></a>
+            </div>
+        </div>
+        <a class="w3-bar-item w3-button margin" href="#" onclick="mapRedirect()">Map</a>
+        <a class="w3-bar-item w3-button margin" href="#">Newsfeed</a>
+        <a class="w3-bar-item w3-button margin" href="#">Favourites</a>
+    </nav>
+    <header class="w3-bar w3-card">
+        <button class="w3-bar-item w3-button w3-xxxlarge" onclick="openSidebar()">&#9776;</button>
+    </header>
+    
+    <div class="w3-container w3-center">
+        <h3 id="name"></h3>
+        <div class="w3-padding w3-center">
+            <img class="w3-circle imgBorder margin-top" src="img/profile.jpg">
+        </div>
+        <div class="w3-row margin-top">
+            <div id="email" class="textColour"></div>
+        </div>
+        <div class="w3-row margin-top">
+            <div id="about" name="about" class="textColour"></div>
+<!--            <div name="province" class="textColour w3-col s4"></div>-->
+        </div>
+        <div class="w3-row margin-top">
+            <div id="facebookUrl" class="textColour"></div>
+<!--            <div name="country" class="textColour w3-col s6"></div>-->
+        </div>
+        <div class="w3-row margin-top">
+            <div id="notes" class="textColour"></div>
+        </div>
+        <div class="w3-row margin-top">
+            <div id="birthdate" class="textColour"></div>
+        </div>
+	</div>
+    <div class="w3-row w3-padding margin-top">
+        <a href="#" onclick="deleteUser()" class="w3-left deleteLink">Delete account</a>
+        <a href="#" onclick="editRedirect()" class="w3-button w3-round-large pageBtns w3-right">Edit</a>
+    </div>
+<!--    <div id="result"></div>-->
+    <script>
+//        if (typeof(Storage) !== "undefined") {
+            document.getElementById("email").innerHTML = sessionStorage.getItem("email");
+            document.getElementById("name").innerHTML = sessionStorage.getItem("name");
+            document.getElementById("about").innerHTML = sessionStorage.getItem("about");
+            document.getElementById("facebookUrl").innerHTML = sessionStorage.getItem("facebookUrl");
+            document.getElementById("notes").innerHTML = sessionStorage.getItem("notes");
+            document.getElementById("birthdate").innerHTML = sessionStorage.getItem("birthdate");
+//        } else {
+//            document.getElementById("result").value = "Sorry, your browser does not support Web Storage...";
+//        }
+        function editRedirect() {
+            $(location).attr('href', 'EditProfile.html');
+        }
+        function redirectProfile() {
+            $(location).attr('href', 'Profile.html');
+        }
+        function mapRedirect() {
+            $(location).attr('href', 'Map.html');
+        }
+        
+        function deleteUser() {
+
+            var email = document.getElementById("email").innerHTML;
+
+            var uri = "http://142.55.32.86:50224/SmartSaugaServer/DeleteUser/" + email;
+
+            $(document).ready(function() {  
+                $.ajax({
+                    type: "DELETE",
+                    dataType: "json",
+                    url: uri,
+                    xhrFields: {
+                        withCredentials: false
+                    },
+                    success: function(data) {
+//                        window.location.replace("CreateOrLogin.html");
+                        $(location).attr('href', 'CreateOrLogin.html');
+                    }
+                });
+            });
+        }
+    </script>
+    <script>
+        closeSidebar();
+
+        function openSidebar() {
+            document.getElementById("sidebar").style.display = "block";
+        }
+
+        function closeSidebar() {
+            document.getElementById("sidebar").style.display = "none";
+        }
+    </script>
+</body>
+</html>
